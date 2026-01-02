@@ -5,26 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Florida Credit Firm | Expert Credit Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
               gold: {
-                400: '#FACC15',
-                500: '#EAB308',
-                600: '#CA8A04',
+                300: '#E5D0AC', // Pale Parchment (Text highlights)
+                400: '#D4B87E', // Soft Champagne
+                500: '#C5A065', // Metallic Antique Gold (Primary Accent)
+                600: '#A17F4A', // Bronze (Hover states)
               },
               navy: {
-                800: '#1e293b',
-                900: '#0f172a',
-                950: '#020617',
+                800: '#1E293B', // Card Surface (Slate 800)
+                900: '#0F172A', // Section Background (Slate 900)
+                950: '#02040F', // Deep Oxford Black (Main Background)
               }
             },
             fontFamily: {
               serif: ['"Playfair Display"', 'serif'],
-              sans: ['"Inter"', 'sans-serif'],
+              sans: ['"Manrope"', 'sans-serif'], // Swapped Inter for Manrope (cleaner, more modern legal feel)
             }
           }
         }
@@ -32,14 +33,14 @@
     </script>
     <style>
       body {
-        background-color: #020617; /* navy-950 */
+        background-color: #02040F; /* navy-950 */
         color: #f8fafc;
       }
       .gold-gradient {
-        background: linear-gradient(135deg, #FACC15 0%, #EAB308 100%);
+        background: linear-gradient(135deg, #D4B87E 0%, #C5A065 100%);
       }
       .gold-text-gradient {
-        background: linear-gradient(135deg, #FDE047 0%, #EAB308 100%);
+        background: linear-gradient(135deg, #E5D0AC 0%, #C5A065 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }

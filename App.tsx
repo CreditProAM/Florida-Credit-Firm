@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { Menu, X, Phone, Shield, BarChart3, Users, ChevronRight, Star, ChevronLeft, Scale, Banknote, FileCheck } from 'lucide-react';
+import { motion, useInView, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { Menu, X, Phone, Shield, BarChart3, Users, ChevronRight, Star, ChevronLeft, Scale, Banknote, FileCheck, Plus, Minus, ArrowRight, Lock, ArrowLeft } from 'lucide-react';
 import { Pricing } from './components/Pricing';
 import { ProcessTimeline } from './components/ProcessTimeline';
 
@@ -65,8 +65,192 @@ const testimonials: Testimonial[] = [
   },
 ];
 
+const faqs = [
+  {
+    question: "How long does the credit repair process take?",
+    answer: "While every case is unique, most clients see their first results within 30-45 days. A complete restoration typically takes 4-6 months depending on the complexity of your profile and the number of negative items."
+  },
+  {
+    question: "Is credit repair legal?",
+    answer: "Absolutely. We operate strictly under the Fair Credit Reporting Act (FCRA) and the Fair Debt Collection Practices Act (FDCPA). It is your legal right to dispute any item on your credit report that is inaccurate, unverifiable, or incomplete."
+  },
+  {
+    question: "Will the negative items come back?",
+    answer: "If an item is successfully removed because it was inaccurate or unverifiable, it is rare for it to reappear. If a creditor does re-report an item, they must follow strict notification procedures. If they fail to do so, we will challenge it again immediately."
+  },
+  {
+    question: "Do I have to sign a long-term contract?",
+    answer: "No. Our services are month-to-month. We believe our results should keep you as a client, not a binding contract. You can cancel at any time with no penalty."
+  }
+];
+
+// Animated Counter Component
+const Counter: React.FC<{ from: number; to: number; duration?: number }> = ({ from, to, duration = 2 }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+  const inView = useInView(nodeRef, { once: true, margin: "-50px" });
+  
+  const springValue = useSpring(from, {
+    duration: duration * 1000,
+    bounce: 0,
+  });
+  
+  const displayValue = useTransform(springValue, (current) => Math.round(current));
+
+  useEffect(() => {
+    if (inView) {
+      springValue.set(to);
+    }
+  }, [inView, to, springValue]);
+
+  return <motion.span ref={nodeRef}>{displayValue}</motion.span>;
+};
+
+// FAQ Item Component
+const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="border-b border-slate-800 last:border-0"
+    >
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full py-6 flex items-center justify-between text-left group"
+      >
+        <span className={`text-lg font-serif font-medium transition-colors ${isOpen ? 'text-gold-500' : 'text-slate-200 group-hover:text-gold-400'}`}>
+          {question}
+        </span>
+        <div className={`w-8 h-8 rounded-full border border-slate-700 flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-gold-500 border-gold-500 rotate-180' : 'bg-transparent group-hover:border-gold-500'}`}>
+          {isOpen ? <Minus className="w-4 h-4 text-navy-950" /> : <Plus className="w-4 h-4 text-slate-400 group-hover:text-gold-500" />}
+        </div>
+      </button>
+      <motion.div 
+        initial={false}
+        animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className="overflow-hidden"
+      >
+        <p className="pb-6 text-slate-400 leading-relaxed pr-8 font-light">
+          {answer}
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// Privacy Policy Component (TCR Compliant)
+const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 50 }}
+      className="fixed inset-0 z-[60] bg-white overflow-y-auto"
+    >
+      <div className="min-h-screen pb-20">
+        {/* Header */}
+        <div className="sticky top-0 bg-navy-950 text-white p-4 flex items-center justify-between shadow-xl z-10">
+          <button 
+            onClick={onClose} 
+            className="flex items-center gap-2 hover:text-gold-500 transition-colors font-bold uppercase tracking-wide text-sm"
+          >
+            <ArrowLeft className="w-5 h-5" /> Back to Site
+          </button>
+          <div className="font-serif font-bold text-lg hidden md:block">Privacy Policy</div>
+          <Lock className="w-5 h-5 text-gold-500" />
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 max-w-4xl py-12 text-slate-800">
+          <h1 className="text-4xl font-serif font-bold text-navy-950 mb-8">Privacy Policy</h1>
+          <p className="text-sm text-slate-500 mb-8">Last Updated: {new Date().toLocaleDateString()}</p>
+
+          <div className="space-y-8 leading-relaxed">
+            <section>
+              <h2 className="text-xl font-bold text-navy-950 mb-3">1. Introduction</h2>
+              <p className="text-slate-600">
+                Florida Credit Firm ("we," "our," or "us") respects your privacy and is committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect from you or that you may provide when you visit our website or utilize our credit education and restoration services.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold text-navy-950 mb-3">2. Nature of Services</h2>
+              <p className="text-slate-600">
+                Florida Credit Firm provides credit education, document processing, and consumer law advocacy services. We are not a lender, and our services are designed to help you ensure your credit report is accurate and verifiable under federal law.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold text-navy-950 mb-3">3. Information We Collect</h2>
+              <p className="text-slate-600 mb-2">We collect several types of information from and about users of our website, including:</p>
+              <ul className="list-disc pl-5 space-y-2 text-slate-600">
+                <li><strong>Personal Identifiers:</strong> Name, postal address, email address, telephone number, and social security number (for credit retrieval purposes only).</li>
+                <li><strong>Financial Information:</strong> Credit report details, billing address, and payment method information.</li>
+                <li><strong>Technical Data:</strong> IP address, browser type, and operating system when you access our site.</li>
+              </ul>
+            </section>
+
+            <section className="bg-slate-50 p-6 rounded-xl border-l-4 border-gold-500">
+              <h2 className="text-xl font-bold text-navy-950 mb-3">4. SMS/Mobile Privacy (TCR Compliance)</h2>
+              <p className="text-slate-700 font-medium mb-4">
+                We value your privacy regarding your mobile information.
+              </p>
+              <p className="text-slate-600 mb-4">
+                <strong>No Mobile Information Sharing:</strong> No mobile information will be shared with third parties/affiliates for marketing/promotional purposes. All the above categories exclude text messaging originator opt-in data and consent; this information will not be shared with any third parties.
+              </p>
+              <p className="text-slate-600">
+                <strong>Opt-Out Rights:</strong> You may opt-out of receiving SMS text messages from us at any time by replying "STOP" to any message you receive. Upon receipt of your "STOP" message, we will send one final message to confirm you have been unsubscribed.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold text-navy-950 mb-3">5. How We Use Your Information</h2>
+              <p className="text-slate-600 mb-2">We use information that we collect about you or that you provide to us:</p>
+              <ul className="list-disc pl-5 space-y-2 text-slate-600">
+                <li>To present our website and its contents to you.</li>
+                <li>To provide you with information, products, or services that you request from us.</li>
+                <li>To carry out our obligations and enforce our rights arising from any contracts entered into between you and us, including for billing and collection.</li>
+                <li>To notify you about changes to our website or any products or services we offer or provide though it.</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold text-navy-950 mb-3">6. Data Security</h2>
+              <p className="text-slate-600">
+                We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure. All payment transactions and sensitive personal data are encrypted using SSL technology.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-bold text-navy-950 mb-3">7. Contact Information</h2>
+              <p className="text-slate-600">
+                To ask questions or comment about this privacy policy and our privacy practices, contact us at:<br/>
+                Florida Credit Firm<br/>
+                (800) 123-4567<br/>
+                support@floridacreditfirm.com
+              </p>
+            </section>
+          </div>
+          
+          <button 
+            onClick={onClose}
+            className="mt-12 bg-navy-950 text-white px-8 py-3 rounded font-bold hover:bg-gold-500 hover:text-navy-950 transition-colors"
+          >
+            Close Privacy Policy
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [itemsVisible, setItemsVisible] = useState(3);
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -135,7 +319,8 @@ const App: React.FC = () => {
     setCurrentSlide(prev => (prev <= 0 ? maxIndex : prev - 1));
   };
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  // Updated to support generic HTMLElements (buttons and anchors)
+  const scrollToSection = (e: React.MouseEvent<HTMLElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id);
     if (element) {
@@ -153,15 +338,19 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-navy-950 font-sans selection:bg-gold-500 selection:text-white">
+    <div className="min-h-screen bg-navy-950 font-sans selection:bg-gold-500 selection:text-white relative">
+      <AnimatePresence>
+        {isPrivacyOpen && <PrivacyPolicyOverlay onClose={() => setIsPrivacyOpen(false)} />}
+      </AnimatePresence>
+
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 bg-navy-950/90 backdrop-blur-md border-b border-white/10 transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <nav className={`fixed w-full z-50 bg-navy-950/90 backdrop-blur-md border-b border-white/5 transition-transform duration-300 ${isNavVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="container mx-auto px-4 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2">
-             <div className="w-8 h-8 bg-gold-500 rounded-sm flex items-center justify-center">
+             <div className="w-8 h-8 bg-gold-500 rounded-sm flex items-center justify-center shadow-lg shadow-gold-500/20">
                 <Shield className="text-navy-950 w-5 h-5" />
              </div>
-             <span className="text-white font-serif font-bold text-xl tracking-wide">FLORIDA CREDIT FIRM</span>
+             <span className="text-slate-100 font-serif font-bold text-xl tracking-wide">FLORIDA CREDIT FIRM</span>
           </div>
 
           {/* Desktop Menu */}
@@ -170,7 +359,10 @@ const App: React.FC = () => {
             <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className="text-sm text-slate-300 hover:text-gold-400 transition-colors uppercase tracking-widest font-medium">Services</a>
             <a href="#programs" onClick={(e) => scrollToSection(e, 'programs')} className="text-sm text-slate-300 hover:text-gold-400 transition-colors uppercase tracking-widest font-medium">Pricing</a>
             <a href="#reviews" onClick={(e) => scrollToSection(e, 'reviews')} className="text-sm text-slate-300 hover:text-gold-400 transition-colors uppercase tracking-widest font-medium">Reviews</a>
-            <button className="bg-gold-500 hover:bg-gold-600 text-navy-950 px-6 py-2 rounded font-bold transition-colors">
+            <button 
+              onClick={(e) => scrollToSection(e, 'programs')}
+              className="bg-gold-500 hover:bg-gold-400 text-navy-950 px-6 py-2 rounded font-bold transition-all shadow-[0_0_15px_rgba(197,160,101,0.2)] hover:shadow-[0_0_20px_rgba(197,160,101,0.4)]"
+            >
               Start Today
             </button>
           </div>
@@ -189,7 +381,12 @@ const App: React.FC = () => {
               <a href="#services" onClick={(e) => scrollToSection(e, 'services')} className="text-slate-300 hover:text-gold-400">Services</a>
               <a href="#programs" onClick={(e) => scrollToSection(e, 'programs')} className="text-slate-300 hover:text-gold-400">Pricing</a>
               <a href="#reviews" onClick={(e) => scrollToSection(e, 'reviews')} className="text-slate-300 hover:text-gold-400">Reviews</a>
-              <button className="bg-gold-500 text-navy-950 px-4 py-2 rounded font-bold w-full">Start Today</button>
+              <button 
+                onClick={(e) => scrollToSection(e, 'programs')}
+                className="bg-gold-500 text-navy-950 px-4 py-2 rounded font-bold w-full"
+              >
+                Start Today
+              </button>
             </div>
           </div>
         )}
@@ -197,35 +394,65 @@ const App: React.FC = () => {
 
       {/* Hero Section */}
       <section id="home" className="pt-32 pb-20 relative overflow-hidden">
-        {/* Background Radial */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl bg-blue-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+        {/* Background Radial - Updated to white/gold subtle mist */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-5xl bg-slate-200/5 blur-[120px] rounded-full pointer-events-none"></div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-gold-400 font-bold tracking-[0.2em] text-sm uppercase mb-6">Florida Credit Firm</h1>
-          <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-gold-400 font-bold tracking-[0.2em] text-sm uppercase mb-6"
+          >
+            Florida Credit Firm
+          </motion.h1>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl md:text-6xl font-serif font-bold text-white mb-6 leading-tight"
+          >
             EXPERT CREDIT & <br/> CONSUMER LAW SOLUTIONS
-          </h2>
+          </motion.h2>
           
-          <div className="w-40 h-40 mx-auto rounded-full border-4 border-slate-700 overflow-hidden mb-8 shadow-2xl relative group">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="w-40 h-40 mx-auto rounded-full border-4 border-slate-700/50 overflow-hidden mb-8 shadow-2xl relative group"
+          >
              <img 
                src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80" 
                alt="Expert Director" 
                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
              />
              <div className="absolute inset-0 bg-navy-950/20 group-hover:bg-transparent transition-colors"></div>
-          </div>
+          </motion.div>
 
-          <p className="text-slate-400 max-w-xl mx-auto mb-10 text-lg">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-slate-400 max-w-xl mx-auto mb-10 text-lg font-light"
+          >
              Stop letting bad credit control your life. We leverage consumer laws to remove inaccuracies and restore your financial freedom.
-          </p>
+          </motion.p>
 
-          <button onClick={(e) => scrollToSection(e as any, 'programs')} className="bg-gold-500 hover:bg-gold-600 text-navy-950 text-lg px-8 py-3 rounded-full font-bold transition-all hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]">
+          <motion.button 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={(e) => scrollToSection(e, 'programs')} 
+            className="bg-gold-500 hover:bg-gold-400 text-navy-950 text-lg px-8 py-3 rounded-full font-bold transition-all hover:shadow-[0_0_25px_rgba(197,160,101,0.4)]"
+          >
             Take Control - Start Today
-          </button>
+          </motion.button>
           
           {/* Logo Marquee */}
           <div className="mt-16 pt-12 border-t border-white/5 w-full max-w-6xl mx-auto overflow-hidden mask-edges">
-            <div className="flex items-center gap-16 animate-scroll w-max opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex items-center gap-16 animate-scroll w-max opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
                {/* Set 1 */}
                {logos.map((logo, i) => (
                   <span key={`1-${i}`} className="text-slate-500 font-serif font-bold text-xl md:text-2xl whitespace-nowrap">{logo}</span>
@@ -240,30 +467,37 @@ const App: React.FC = () => {
         </div>
       </section>
 
-      {/* Trust Banner */}
+      {/* Trust Banner with Animated Counters */}
       <section className="bg-navy-900 py-12 border-y border-white/5">
         <div className="container mx-auto px-4">
            <div className="text-center mb-8">
-              <h3 className="text-white text-xl font-serif">Trusted By Thousands For Credit Repair Excellence</h3>
-              <div className="h-1 w-20 bg-gold-500 mx-auto mt-4 rounded-full"></div>
+              <h3 className="text-slate-200 text-xl font-serif">Trusted By Thousands For Credit Repair Excellence</h3>
+              <div className="h-0.5 w-16 bg-gold-500/50 mx-auto mt-4 rounded-full"></div>
            </div>
            
            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="bg-navy-950 p-8 rounded-lg border border-slate-800 text-center relative group hover:border-gold-500/50 transition-colors">
-                 <div className="text-4xl font-bold text-white mb-2">7800<span className="text-gold-500">+</span></div>
-                 <div className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">Satisfied Clients</div>
-                 <p className="text-xs text-slate-500">Since 2015, helping clients take control of their financial future.</p>
-              </div>
-              <div className="bg-navy-950 p-8 rounded-lg border border-slate-800 text-center relative group hover:border-gold-500/50 transition-colors">
-                 <div className="text-4xl font-bold text-white mb-2">25000<span className="text-gold-500">+</span></div>
-                 <div className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">Items Removed</div>
-                 <p className="text-xs text-slate-500">Successfully disputed items across all credit bureaus.</p>
-              </div>
-              <div className="bg-navy-950 p-8 rounded-lg border border-slate-800 text-center relative group hover:border-gold-500/50 transition-colors">
-                 <div className="text-4xl font-bold text-white mb-2">50<span className="text-gold-500">+</span></div>
-                 <div className="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">States Served</div>
-                 <p className="text-xs text-slate-500">Proudly serving clients locally and nationwide.</p>
-              </div>
+              {[
+                { end: 7800, label: "Satisfied Clients", sub: "Since 2015, helping clients take control of their financial future." },
+                { end: 25000, label: "Items Removed", sub: "Successfully disputed items across all credit bureaus." },
+                { end: 50, label: "States Served", sub: "Proudly serving clients locally and nationwide." }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.2, duration: 0.5 }}
+                  whileHover={{ y: -5 }}
+                  className="bg-navy-950 p-8 rounded-lg border border-slate-800 text-center relative group hover:border-gold-500/30 transition-colors"
+                >
+                   <div className="text-4xl font-bold text-white mb-2">
+                      <Counter from={0} to={item.end} />
+                      <span className="text-gold-500">+</span>
+                   </div>
+                   <div className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2">{item.label}</div>
+                   <p className="text-xs text-slate-500">{item.sub}</p>
+                </motion.div>
+              ))}
            </div>
         </div>
       </section>
@@ -298,12 +532,12 @@ const App: React.FC = () => {
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ 
                       duration: 0.5, 
-                      delay: Math.min(idx * 0.1, 0.3), // Cap delay so later items don't take forever if navigated to
+                      delay: Math.min(idx * 0.1, 0.3), 
                       type: "spring",
                       stiffness: 100
                     }}
                    >
-                     <div className="bg-slate-900 p-8 rounded-xl border border-slate-800 relative h-full flex flex-col hover:border-gold-500/30 transition-colors group overflow-hidden">
+                     <div className="bg-slate-900/50 p-8 rounded-xl border border-slate-800 relative h-full flex flex-col hover:border-gold-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-gold-500/10 group overflow-hidden">
                         {/* Elegant Watermark Quote */}
                         <div className="absolute top-4 right-6 text-8xl font-serif text-slate-800/50 leading-none select-none pointer-events-none group-hover:text-gold-500/10 transition-colors duration-500">
                            &rdquo;
@@ -373,13 +607,13 @@ const App: React.FC = () => {
       {/* Services Section - Animated Grid */}
       <section id="services" className="py-24 bg-white relative overflow-hidden">
          {/* Background subtle pattern */}
-         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#eab308_1px,transparent_1px)] [background-size:16px_16px]"></div>
+         <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#C5A065_1px,transparent_1px)] [background-size:16px_16px]"></div>
          
          <div className="container mx-auto px-4 relative z-10">
             <div className="text-center max-w-3xl mx-auto mb-16">
-               <span className="text-gold-500 font-bold tracking-widest text-sm uppercase mb-3 block">Our Expertise</span>
+               <span className="text-gold-600 font-bold tracking-widest text-sm uppercase mb-3 block">Our Expertise</span>
                <h2 className="text-3xl md:text-5xl font-serif font-bold text-navy-950 mb-6">Legal-First Credit Solutions</h2>
-               <p className="text-slate-600 text-lg">
+               <p className="text-slate-600 text-lg font-light">
                  We go beyond basic disputes. Our team leverages advanced consumer protection laws to challenge inaccuracies, negotiate debts, and restore your financial power.
                </p>
             </div>
@@ -408,6 +642,7 @@ const App: React.FC = () => {
                    whileInView={{ opacity: 1, y: 0 }}
                    viewport={{ once: true }}
                    transition={{ delay: idx * 0.2 }}
+                   whileHover={{ y: -5 }}
                    className="bg-slate-50 hover:bg-white p-8 rounded-2xl border border-slate-100 hover:border-gold-500/30 hover:shadow-xl transition-all group"
                  >
                    <motion.div 
@@ -419,7 +654,7 @@ const App: React.FC = () => {
                      <service.icon className="w-7 h-7 text-gold-500 group-hover:text-navy-950 transition-colors" />
                    </motion.div>
                    <h3 className="text-xl font-serif font-bold text-navy-950 mb-3">{service.title}</h3>
-                   <p className="text-slate-600 leading-relaxed">{service.desc}</p>
+                   <p className="text-slate-600 leading-relaxed font-light">{service.desc}</p>
                  </motion.div>
                ))}
             </div>
@@ -428,6 +663,23 @@ const App: React.FC = () => {
 
       {/* New Process Timeline */}
       <ProcessTimeline />
+      
+      {/* FAQ Section */}
+      <section className="py-24 bg-navy-900 border-t border-slate-800">
+        <div className="container mx-auto px-4 max-w-4xl">
+           <div className="text-center mb-16">
+              <span className="text-gold-500 font-bold tracking-widest text-sm uppercase mb-3 block">Common Questions</span>
+              <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6">Expert Answers</h2>
+              <p className="text-slate-400 font-light">Everything you need to know about the restoration process.</p>
+           </div>
+           
+           <div className="space-y-2">
+             {faqs.map((faq, index) => (
+               <FAQItem key={index} question={faq.question} answer={faq.answer} />
+             ))}
+           </div>
+        </div>
+      </section>
 
       {/* Executive Team */}
       <section className="py-20 bg-white">
@@ -439,20 +691,31 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { name: "Anniel Manso", role: "Chief Director", color: "bg-navy-950" },
-              { name: "Sandy Martin", role: "Client Relations", color: "bg-yellow-600" },
-              { name: "Dashell Quintana", role: "Financial Officer", color: "bg-blue-900" },
-              { name: "Denys Orriaga", role: "Lead Operations", color: "bg-green-700" }
+              { name: "Sandy Martin", role: "Client Relations", color: "bg-gold-600" },
+              { name: "Dashell Quintana", role: "Financial Officer", color: "bg-navy-800" },
+              { name: "Denys Orriaga", role: "Lead Operations", color: "bg-slate-700" }
             ].map((member, idx) => (
-              <div key={idx} className="bg-white rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] p-6 text-center group hover:-translate-y-2 transition-transform duration-300">
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                whileHover={{ y: -10 }}
+                className="bg-white rounded-xl shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] p-6 text-center group transition-shadow duration-300 hover:shadow-xl"
+              >
                 <div className="w-32 h-32 mx-auto rounded-full p-1 border-2 border-gold-500 mb-6">
                    <img src={`https://picsum.photos/200/200?random=${idx}`} alt={member.name} className="w-full h-full rounded-full object-cover grayscale group-hover:grayscale-0 transition-all" />
                 </div>
                 <h4 className="font-serif font-bold text-navy-900 text-lg">{member.name}</h4>
                 <p className="text-slate-500 text-sm mb-6">{member.role}</p>
-                <div className={`h-12 w-full ${member.color} rounded-lg flex items-center justify-center text-white text-xs font-bold uppercase tracking-wider`}>
+                <motion.div 
+                  whileHover={{ scale: 1.05 }}
+                  className={`h-12 w-full ${member.color} rounded-lg flex items-center justify-center text-white text-xs font-bold uppercase tracking-wider cursor-pointer`}
+                >
                    Connect
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -463,14 +726,66 @@ const App: React.FC = () => {
          <Pricing />
       </div>
 
+      {/* Final CTA Section */}
+      <section className="py-24 relative overflow-hidden">
+        {/* Simplified Minimalist Gradient */}
+        <div className="absolute inset-0 bg-navy-950 z-0"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-navy-800 via-navy-950 to-navy-950 z-0"></div>
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-6xl font-serif font-bold text-white mb-8"
+          >
+            Ready to Reclaim Your <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-300 to-gold-500">Financial Future?</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light"
+          >
+            Don't let another day pass with a score that doesn't reflect your potential. Join thousands of satisfied clients who have restored their credit with Florida Credit Firm.
+          </motion.p>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="flex flex-col md:flex-row gap-4 justify-center items-center"
+          >
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={(e) => scrollToSection(e, 'programs')} 
+              className="group bg-gold-500 hover:bg-gold-400 text-navy-950 text-lg px-10 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(197,160,101,0.3)] hover:shadow-[0_0_30px_rgba(197,160,101,0.5)] flex items-center gap-2"
+            >
+              Start Your Journey <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+            <motion.button 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-10 py-4 rounded-full font-bold text-white border border-slate-700 hover:bg-slate-800 transition-colors flex items-center gap-2"
+            >
+              <Phone className="w-4 h-4" /> (800) 123-4567
+            </motion.button>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="bg-navy-950 border-t border-slate-900 py-12 text-slate-400 text-sm">
          <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.0 }}>
                <div className="text-white font-serif font-bold text-xl mb-4">FLORIDA CREDIT FIRM</div>
-               <p>Empowering financial freedom through expert credit repair strategies and consumer law protection.</p>
-            </div>
-            <div>
+               <p className="font-light leading-relaxed">Empowering financial freedom through expert credit repair strategies and consumer law protection.</p>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
                <h5 className="text-white font-bold mb-4">Quick Links</h5>
                <ul className="space-y-2">
                   <li><a href="#" className="hover:text-gold-500">About Us</a></li>
@@ -478,22 +793,22 @@ const App: React.FC = () => {
                   <li><a href="#" className="hover:text-gold-500">Pricing</a></li>
                   <li><a href="#" className="hover:text-gold-500">Client Portal</a></li>
                </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
                <h5 className="text-white font-bold mb-4">Legal</h5>
                <ul className="space-y-2">
-                  <li><a href="#" className="hover:text-gold-500">Privacy Policy</a></li>
+                  <li><button onClick={() => setIsPrivacyOpen(true)} className="hover:text-gold-500 text-left">Privacy Policy</button></li>
                   <li><a href="#" className="hover:text-gold-500">Terms of Service</a></li>
                   <li><a href="#" className="hover:text-gold-500">Disclaimer</a></li>
                </ul>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
                <h5 className="text-white font-bold mb-4">Contact</h5>
                <p className="flex items-center gap-2 mb-2"><Phone className="w-4 h-4 text-gold-500" /> (800) 123-4567</p>
                <p>Miami, FL 33130</p>
-            </div>
+            </motion.div>
          </div>
-         <div className="container mx-auto px-4 text-center pt-8 border-t border-slate-900">
+         <div className="container mx-auto px-4 text-center pt-8 border-t border-slate-900 font-light text-slate-500">
             &copy; {new Date().getFullYear()} Florida Credit Firm. All rights reserved.
          </div>
       </footer>

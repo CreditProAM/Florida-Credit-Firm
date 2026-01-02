@@ -65,15 +65,32 @@ export const ProcessTimeline: React.FC = () => {
     <section ref={containerRef} className="py-24 bg-navy-950 relative overflow-hidden">
       <div className="container mx-auto px-4 relative">
         <div className="text-center mb-24 relative z-10">
-          <span className="text-gold-500 font-bold tracking-widest uppercase text-xs border border-gold-500/20 px-4 py-1 rounded-full">
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-gold-500 font-bold tracking-widest uppercase text-xs border border-gold-500/20 px-4 py-1 rounded-full"
+          >
             How We Work
-          </span>
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mt-6 mb-6">
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-5xl font-serif font-bold text-white mt-6 mb-6"
+          >
             The Path to Restoration
-          </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-slate-400 max-w-2xl mx-auto text-lg"
+          >
             Our proven four-step methodology combines legal expertise with aggressive dispute tactics.
-          </p>
+          </motion.p>
         </div>
 
         {/* Desktop View (Zigzag Layout) */}
@@ -93,7 +110,13 @@ export const ProcessTimeline: React.FC = () => {
               return (
                 <div key={index} className={`flex items-center justify-between ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>
                   {/* Content Side */}
-                  <div className={`w-5/12 ${isEven ? 'text-right pr-12' : 'text-left pl-12'}`}>
+                  <motion.div 
+                    initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className={`w-5/12 ${isEven ? 'text-right pr-12' : 'text-left pl-12'}`}
+                  >
                     <div className="text-gold-500 font-bold text-sm tracking-widest mb-2">STEP {item.step}</div>
                     <h3 className="text-2xl font-serif font-bold text-white mb-4">{item.title}</h3>
                     <ul className="space-y-2">
@@ -109,7 +132,7 @@ export const ProcessTimeline: React.FC = () => {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
 
                   {/* Icon Node (Center) */}
                   <div className="w-2/12 flex justify-center relative">
@@ -148,13 +171,19 @@ export const ProcessTimeline: React.FC = () => {
                 <div className="absolute left-0 top-0 w-8 h-8 bg-navy-950 border border-gold-500 rounded-full flex items-center justify-center -translate-x-1/2 mt-1 z-10">
                    <span className="text-[10px] text-gold-500 font-bold">{item.step}</span>
                 </div>
-                <div className="bg-navy-900/50 p-6 rounded-xl border border-slate-800">
+                <motion.div 
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="bg-navy-900/50 p-6 rounded-xl border border-slate-800"
+                >
                    <div className="flex items-center gap-3 mb-3">
                       <motion.div
                         initial={{ scale: 0, opacity: 0 }}
                         whileInView={{ scale: 1, opacity: 1 }}
                         viewport={{ once: true }}
-                        transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.1 }}
+                        transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
                       >
                          <item.icon className="w-5 h-5 text-gold-500" />
                       </motion.div>
@@ -168,7 +197,7 @@ export const ProcessTimeline: React.FC = () => {
                         </li>
                      ))}
                    </ul>
-                </div>
+                </motion.div>
              </div>
            ))}
         </div>

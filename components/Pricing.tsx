@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, X, Info } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const tiers = [
   {
@@ -156,12 +157,34 @@ export const Pricing: React.FC = () => {
     <section className="py-20 bg-navy-950">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">Our Programs</h2>
-          <p className="text-gold-500 font-semibold mb-6">(No Hidden Fees)</p>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl font-serif font-bold text-white mb-4"
+          >
+            Our Programs
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-gold-500 font-semibold mb-6"
+          >
+            (No Hidden Fees)
+          </motion.p>
           <div className="h-px w-24 bg-gold-500 mx-auto mb-6"></div>
-          <p className="text-slate-300 max-w-2xl mx-auto">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-slate-300 max-w-2xl mx-auto"
+          >
             We believe in full transparency – delivering honesty and clarity every step of the way.
-          </p>
+          </motion.p>
         </div>
         
         {/* Yellow Bar */}
@@ -169,10 +192,15 @@ export const Pricing: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {tiers.map((tier, index) => (
-            <div 
-              key={index} 
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.15, duration: 0.6 }}
+              whileHover={{ y: -10 }}
               className={`
-                relative rounded-lg transition-transform hover:-translate-y-2 duration-300 hover:z-20
+                relative rounded-lg transition-shadow duration-300 hover:z-20
                 ${tier.highlight ? 'bg-slate-800 border-2 border-slate-600 shadow-2xl scale-105 z-10' : 'bg-white border border-slate-200'}
               `}
             >
@@ -215,16 +243,19 @@ export const Pricing: React.FC = () => {
                   ))}
                 </ul>
 
-                <button className={`
+                <motion.button 
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`
                   w-full mt-8 py-3 px-6 rounded font-bold tracking-wider transition-colors
                   ${tier.highlight 
                     ? 'bg-white text-navy-900 hover:bg-gold-500 hover:text-white' 
                     : 'bg-navy-800 text-white hover:bg-navy-700'}
                 `}>
                   GET STARTED
-                </button>
+                </motion.button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
