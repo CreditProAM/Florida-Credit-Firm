@@ -154,8 +154,11 @@ const tiers = [
 
 export const Pricing: React.FC = () => {
   return (
-    <section className="py-20 bg-navy-950">
-      <div className="container mx-auto px-4">
+    <section className="py-20 bg-navy-950 relative overflow-hidden">
+      {/* Background Gradient */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-navy-900/40 via-transparent to-transparent pointer-events-none"></div>
+
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}

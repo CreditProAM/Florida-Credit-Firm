@@ -171,21 +171,21 @@ const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) =>
 
           <div className="space-y-8 leading-relaxed">
             <section>
-              <h2 className="text-xl font-bold text-navy-950 mb-3">1. Introduction</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">1. Introduction</h2>
               <p className="text-slate-600">
                 Florida Credit Firm ("we," "our," or "us") respects your privacy and is committed to protecting it through our compliance with this policy. This policy describes the types of information we may collect from you or that you may provide when you visit our website or utilize our credit education and restoration services.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-navy-950 mb-3">2. Nature of Services</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">2. Nature of Services</h2>
               <p className="text-slate-600">
                 Florida Credit Firm provides credit education, document processing, and consumer law advocacy services. We are not a lender, and our services are designed to help you ensure your credit report is accurate and verifiable under federal law.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-navy-950 mb-3">3. Information We Collect</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">3. Information We Collect</h2>
               <p className="text-slate-600 mb-2">We collect several types of information from and about users of our website, including:</p>
               <ul className="list-disc pl-5 space-y-2 text-slate-600">
                 <li><strong>Personal Identifiers:</strong> Name, postal address, email address, telephone number, and social security number (for credit retrieval purposes only).</li>
@@ -195,7 +195,7 @@ const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) =>
             </section>
 
             <section className="bg-slate-50 p-6 rounded-xl border-l-4 border-gold-500">
-              <h2 className="text-xl font-bold text-navy-950 mb-3">4. SMS/Mobile Privacy (TCR Compliance)</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">4. SMS/Mobile Privacy (TCR Compliance)</h2>
               <p className="text-slate-700 font-medium mb-4">
                 We value your privacy regarding your mobile information.
               </p>
@@ -208,7 +208,7 @@ const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) =>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-navy-950 mb-3">5. How We Use Your Information</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">5. How We Use Your Information</h2>
               <p className="text-slate-600 mb-2">We use information that we collect about you or that you provide to us:</p>
               <ul className="list-disc pl-5 space-y-2 text-slate-600">
                 <li>To present our website and its contents to you.</li>
@@ -219,14 +219,14 @@ const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) =>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-navy-950 mb-3">6. Data Security</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">6. Data Security</h2>
               <p className="text-slate-600">
                 We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure. All payment transactions and sensitive personal data are encrypted using SSL technology.
               </p>
             </section>
 
             <section>
-              <h2 className="text-xl font-bold text-navy-950 mb-3">7. Contact Information</h2>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">7. Contact Information</h2>
               <p className="text-slate-600">
                 To ask questions or comment about this privacy policy and our privacy practices, contact us at:<br/>
                 Florida Credit Firm<br/>
@@ -238,9 +238,78 @@ const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) =>
           
           <button 
             onClick={onClose}
-            className="mt-12 bg-navy-950 text-white px-8 py-3 rounded font-bold hover:bg-gold-500 hover:text-navy-950 transition-colors"
+            className="mt-12 bg-navy-950 text-white px-8 py-3 rounded font-bold tracking-wide hover:bg-gold-500 hover:text-navy-950 transition-colors"
           >
             Close Privacy Policy
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Disclaimer Overlay Component
+const DisclaimerOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 50 }}
+      className="fixed inset-0 z-[60] bg-white overflow-y-auto"
+    >
+      <div className="min-h-screen pb-20">
+        {/* Header */}
+        <div className="sticky top-0 bg-navy-950 text-white p-4 flex items-center justify-between shadow-xl z-10">
+          <button
+            onClick={onClose}
+            className="flex items-center gap-2 hover:text-gold-500 transition-colors font-bold uppercase tracking-wide text-sm"
+          >
+            <ArrowLeft className="w-5 h-5" /> Back to Site
+          </button>
+          <div className="font-serif font-bold text-lg hidden md:block">Legal Disclaimer</div>
+          <Lock className="w-5 h-5 text-gold-500" />
+        </div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 max-w-4xl py-12 text-slate-800">
+          <h1 className="text-4xl font-serif font-bold text-navy-950 mb-8">Disclaimer</h1>
+          <p className="text-sm text-slate-500 mb-8">Last Updated: {new Date().toLocaleDateString()}</p>
+
+          <div className="space-y-8 leading-relaxed">
+            <section>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">1. Not Legal Advice</h2>
+              <p className="text-slate-600">
+                The information provided on this website does not, and is not intended to, constitute legal advice; instead, all information, content, and materials available on this site are for general informational purposes only. Information on this website may not constitute the most up-to-date legal or other information.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">2. Credit Repair Services</h2>
+              <p className="text-slate-600">
+                Florida Credit Firm is a credit restoration organization. We assist clients in challenging inaccurate, unverifiable, and incomplete items on their credit reports. We do not guarantee any specific outcome or score increase. Credit scores are calculated by third parties based on a variety of factors, and we cannot predict or promise a specific result.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">3. Testimonials and Results</h2>
+              <p className="text-slate-600">
+                Testimonials and reviews appearing on this site are received via text, audio, or video submission. They are individual experiences, reflecting real life experiences of those who have used our products and/or services in some way or another. However, they are individual results and results do vary. We do not claim that they are typical results that consumers will generally achieve.
+              </p>
+            </section>
+            
+             <section>
+              <h2 className="text-xl font-serif font-bold text-navy-950 mb-3">4. No Guarantees</h2>
+              <p className="text-slate-600">
+                You acknowledge that Florida Credit Firm has not made any guarantees, promises, representations, or warranties regarding the outcome of our services. The time required to achieve results varies by case and depends on the responsiveness of credit bureaus and creditors.
+              </p>
+            </section>
+          </div>
+
+          <button
+            onClick={onClose}
+            className="mt-12 bg-navy-950 text-white px-8 py-3 rounded font-bold tracking-wide hover:bg-gold-500 hover:text-navy-950 transition-colors"
+          >
+            Close Disclaimer
           </button>
         </div>
       </div>
@@ -251,6 +320,7 @@ const PrivacyPolicyOverlay: React.FC<{ onClose: () => void }> = ({ onClose }) =>
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
+  const [isDisclaimerOpen, setIsDisclaimerOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [itemsVisible, setItemsVisible] = useState(3);
   const [isNavVisible, setIsNavVisible] = useState(true);
@@ -341,6 +411,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-navy-950 font-sans selection:bg-gold-500 selection:text-white relative">
       <AnimatePresence>
         {isPrivacyOpen && <PrivacyPolicyOverlay onClose={() => setIsPrivacyOpen(false)} />}
+        {isDisclaimerOpen && <DisclaimerOverlay onClose={() => setIsDisclaimerOpen(false)} />}
       </AnimatePresence>
 
       {/* Navigation */}
@@ -361,7 +432,7 @@ const App: React.FC = () => {
             <a href="#reviews" onClick={(e) => scrollToSection(e, 'reviews')} className="text-sm text-slate-300 hover:text-gold-400 transition-colors uppercase tracking-widest font-medium">Reviews</a>
             <button 
               onClick={(e) => scrollToSection(e, 'programs')}
-              className="bg-gold-500 hover:bg-gold-400 text-navy-950 px-6 py-2 rounded font-bold transition-all shadow-[0_0_15px_rgba(197,160,101,0.2)] hover:shadow-[0_0_20px_rgba(197,160,101,0.4)]"
+              className="bg-gold-500 hover:bg-gold-400 text-navy-950 px-6 py-2 rounded font-bold tracking-wide transition-all shadow-[0_0_15px_rgba(197,160,101,0.2)] hover:shadow-[0_0_20px_rgba(197,160,101,0.4)]"
             >
               Start Today
             </button>
@@ -383,7 +454,7 @@ const App: React.FC = () => {
               <a href="#reviews" onClick={(e) => scrollToSection(e, 'reviews')} className="text-slate-300 hover:text-gold-400">Reviews</a>
               <button 
                 onClick={(e) => scrollToSection(e, 'programs')}
-                className="bg-gold-500 text-navy-950 px-4 py-2 rounded font-bold w-full"
+                className="bg-gold-500 text-navy-950 px-4 py-2 rounded font-bold tracking-wide w-full"
               >
                 Start Today
               </button>
@@ -393,16 +464,20 @@ const App: React.FC = () => {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-32 pb-20 relative overflow-hidden">
-        {/* Background Radial - Updated to white/gold subtle mist */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-5xl bg-slate-200/5 blur-[120px] rounded-full pointer-events-none"></div>
+      <section id="home" className="pt-32 pb-24 relative overflow-hidden bg-navy-950">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+        {/* Floating Gradient Orbs */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gold-500/10 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-navy-800/30 blur-[120px] rounded-full pointer-events-none translate-x-1/3 translate-y-1/3"></div>
+        <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-navy-800/30 blur-[100px] rounded-full pointer-events-none -translate-x-1/2"></div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-gold-400 font-bold tracking-[0.2em] text-sm uppercase mb-6"
+            className="text-gold-500 font-medium tracking-[0.3em] text-sm md:text-base uppercase mb-8 font-sans"
           >
             Florida Credit Firm
           </motion.h1>
@@ -410,32 +485,35 @@ const App: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-6xl font-serif font-bold text-white mb-6 leading-tight"
+            className="text-5xl md:text-7xl font-serif font-bold text-white mb-8 leading-[1.1] tracking-tight"
           >
-            EXPERT CREDIT & <br/> CONSUMER LAW SOLUTIONS
+            Expert Credit & <br/> 
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">Consumer Law Solutions</span>
           </motion.h2>
           
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="w-40 h-40 mx-auto rounded-full border-4 border-slate-700/50 overflow-hidden mb-8 shadow-2xl relative group"
+            className="w-40 h-40 mx-auto rounded-full border-2 border-gold-500/30 p-1 mb-10 shadow-2xl relative group"
           >
-             <img 
-               src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80" 
-               alt="Expert Director" 
-               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-             />
-             <div className="absolute inset-0 bg-navy-950/20 group-hover:bg-transparent transition-colors"></div>
+             <div className="w-full h-full rounded-full overflow-hidden relative">
+                <img 
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400&q=80" 
+                  alt="Expert Director" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-navy-950/10 group-hover:bg-transparent transition-colors"></div>
+             </div>
           </motion.div>
 
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-slate-400 max-w-xl mx-auto mb-10 text-lg font-light"
+            className="text-slate-300 max-w-2xl mx-auto mb-10 text-lg md:text-xl font-light leading-relaxed"
           >
-             Stop letting bad credit control your life. We leverage consumer laws to remove inaccuracies and restore your financial freedom.
+             Stop letting bad credit control your life. We leverage <span className="text-white font-normal">federal consumer laws</span> to remove inaccuracies and restore your financial freedom.
           </motion.p>
 
           <motion.button 
@@ -445,7 +523,7 @@ const App: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={(e) => scrollToSection(e, 'programs')} 
-            className="bg-gold-500 hover:bg-gold-400 text-navy-950 text-lg px-8 py-3 rounded-full font-bold transition-all hover:shadow-[0_0_25px_rgba(197,160,101,0.4)]"
+            className="bg-gold-500 hover:bg-gold-400 text-navy-950 text-lg px-8 py-3 rounded-full font-bold tracking-wide transition-all hover:shadow-[0_0_25px_rgba(197,160,101,0.4)]"
           >
             Take Control - Start Today
           </motion.button>
@@ -468,8 +546,10 @@ const App: React.FC = () => {
       </section>
 
       {/* Trust Banner with Animated Counters */}
-      <section className="bg-navy-900 py-12 border-y border-white/5">
-        <div className="container mx-auto px-4">
+      <section className="bg-navy-900 py-12 border-y border-white/5 relative overflow-hidden">
+        {/* Subtle Radial Highlight */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-navy-800/50 to-transparent opacity-50"></div>
+        <div className="container mx-auto px-4 relative z-10">
            <div className="text-center mb-8">
               <h3 className="text-slate-200 text-xl font-serif">Trusted By Thousands For Credit Repair Excellence</h3>
               <div className="h-0.5 w-16 bg-gold-500/50 mx-auto mt-4 rounded-full"></div>
@@ -488,9 +568,9 @@ const App: React.FC = () => {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.2, duration: 0.5 }}
                   whileHover={{ y: -5 }}
-                  className="bg-navy-950 p-8 rounded-lg border border-slate-800 text-center relative group hover:border-gold-500/30 transition-colors"
+                  className="bg-navy-950 p-8 rounded-lg border border-slate-800 text-center relative group hover:border-gold-500/30 transition-colors shadow-lg"
                 >
-                   <div className="text-4xl font-bold text-white mb-2">
+                   <div className="text-4xl font-serif font-bold text-white mb-2">
                       <Counter from={0} to={item.end} />
                       <span className="text-gold-500">+</span>
                    </div>
@@ -503,8 +583,11 @@ const App: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section id="reviews" className="py-20 bg-navy-950">
-        <div className="container mx-auto px-4">
+      <section id="reviews" className="py-20 bg-gradient-to-b from-navy-950 to-navy-900 relative overflow-hidden">
+        {/* Subtle grid for texture */}
+        <div className="absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:60px_60px]"></div>
+
+        <div className="container mx-auto px-4 relative z-10">
            <div className="text-center mb-12">
               <h3 className="text-3xl text-white font-serif mb-2">What Our Clients Say</h3>
               <div className="flex justify-center gap-1 mb-8">
@@ -552,7 +635,7 @@ const App: React.FC = () => {
                              />
                            </div>
                            <div>
-                              <h4 className="text-white font-bold text-lg leading-tight">{t.name}</h4>
+                              <h4 className="text-white font-serif font-bold text-xl leading-tight tracking-wide">{t.name}</h4>
                               <p className="text-slate-500 text-xs uppercase tracking-wide font-medium">{t.role}</p>
                               <div className="flex gap-0.5 mt-1">
                                  {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-3 h-3 text-gold-500 fill-gold-500" />)}
@@ -727,11 +810,11 @@ const App: React.FC = () => {
       </div>
 
       {/* Final CTA Section */}
-      <section className="py-24 relative overflow-hidden">
-        {/* Simplified Minimalist Gradient */}
-        <div className="absolute inset-0 bg-navy-950 z-0"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-navy-800 via-navy-950 to-navy-950 z-0"></div>
-        
+      <section className="py-24 relative overflow-hidden bg-navy-950">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-navy-800 via-navy-950 to-navy-950"></div>
+        {/* Animated glow effect */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gold-500/5 blur-[100px] rounded-full pointer-events-none"></div>
+
         <div className="container mx-auto px-4 relative z-10 text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -763,14 +846,14 @@ const App: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={(e) => scrollToSection(e, 'programs')} 
-              className="group bg-gold-500 hover:bg-gold-400 text-navy-950 text-lg px-10 py-4 rounded-full font-bold transition-all shadow-[0_0_20px_rgba(197,160,101,0.3)] hover:shadow-[0_0_30px_rgba(197,160,101,0.5)] flex items-center gap-2"
+              className="group bg-gold-500 hover:bg-gold-400 text-navy-950 text-lg px-10 py-4 rounded-full font-bold tracking-wide transition-all shadow-[0_0_20px_rgba(197,160,101,0.3)] hover:shadow-[0_0_30px_rgba(197,160,101,0.5)] flex items-center gap-2"
             >
               Start Your Journey <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 rounded-full font-bold text-white border border-slate-700 hover:bg-slate-800 transition-colors flex items-center gap-2"
+              className="px-10 py-4 rounded-full font-bold tracking-wide text-white border border-slate-700 hover:bg-slate-800 transition-colors flex items-center gap-2"
             >
               <Phone className="w-4 h-4" /> (800) 123-4567
             </motion.button>
@@ -786,24 +869,23 @@ const App: React.FC = () => {
                <p className="font-light leading-relaxed">Empowering financial freedom through expert credit repair strategies and consumer law protection.</p>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-               <h5 className="text-white font-bold mb-4">Quick Links</h5>
+               <h5 className="text-white font-serif font-bold text-lg mb-4">Quick Links</h5>
                <ul className="space-y-2">
-                  <li><a href="#" className="hover:text-gold-500">About Us</a></li>
-                  <li><a href="#" className="hover:text-gold-500">Services</a></li>
-                  <li><a href="#" className="hover:text-gold-500">Pricing</a></li>
-                  <li><a href="#" className="hover:text-gold-500">Client Portal</a></li>
+                  <li><a href="#home" onClick={(e) => scrollToSection(e, 'home')} className="hover:text-gold-500">About Us</a></li>
+                  <li><a href="#services" onClick={(e) => scrollToSection(e, 'services')} className="hover:text-gold-500">Services</a></li>
+                  <li><a href="#programs" onClick={(e) => scrollToSection(e, 'programs')} className="hover:text-gold-500">Pricing</a></li>
                </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}>
-               <h5 className="text-white font-bold mb-4">Legal</h5>
+               <h5 className="text-white font-serif font-bold text-lg mb-4">Legal</h5>
                <ul className="space-y-2">
                   <li><button onClick={() => setIsPrivacyOpen(true)} className="hover:text-gold-500 text-left">Privacy Policy</button></li>
                   <li><a href="#" className="hover:text-gold-500">Terms of Service</a></li>
-                  <li><a href="#" className="hover:text-gold-500">Disclaimer</a></li>
+                  <li><button onClick={() => setIsDisclaimerOpen(true)} className="hover:text-gold-500 text-left">Disclaimer</button></li>
                </ul>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 }}>
-               <h5 className="text-white font-bold mb-4">Contact</h5>
+               <h5 className="text-white font-serif font-bold text-lg mb-4">Contact</h5>
                <p className="flex items-center gap-2 mb-2"><Phone className="w-4 h-4 text-gold-500" /> (800) 123-4567</p>
                <p>Miami, FL 33130</p>
             </motion.div>
