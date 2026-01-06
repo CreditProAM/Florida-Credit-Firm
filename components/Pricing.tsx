@@ -165,7 +165,7 @@ export const Pricing: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-serif font-bold text-white mb-4"
+            className="text-3xl md:text-4xl font-serif font-bold text-white mb-4 tracking-tight"
           >
             Our Programs
           </motion.h2>
@@ -174,7 +174,7 @@ export const Pricing: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-gold-500 font-semibold mb-6"
+            className="text-gold-500 font-sans font-semibold mb-6 tracking-wide"
           >
             (No Hidden Fees)
           </motion.p>
@@ -184,7 +184,7 @@ export const Pricing: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-300 max-w-2xl mx-auto"
+            className="text-slate-300 max-w-2xl mx-auto font-sans font-light leading-relaxed"
           >
             We believe in full transparency – delivering honesty and clarity every step of the way.
           </motion.p>
@@ -209,12 +209,12 @@ export const Pricing: React.FC = () => {
             >
               {/* Header */}
               <div className={`p-8 text-center border-b rounded-t-lg ${tier.highlight ? 'border-slate-600 bg-slate-800' : 'border-slate-100 bg-white'}`}>
-                <h3 className={`text-xl font-serif ${tier.highlight ? 'text-white' : 'text-slate-700'}`}>{tier.name}</h3>
+                <h3 className={`text-xl font-serif font-bold tracking-tight ${tier.highlight ? 'text-white' : 'text-slate-700'}`}>{tier.name}</h3>
                 <div className={`mt-4 flex items-start justify-center ${tier.highlight ? 'text-white' : 'text-slate-900'}`}>
-                  <span className="text-2xl font-bold mt-2">$</span>
+                  <span className="text-2xl font-serif font-bold mt-2">$</span>
                   <span className="text-6xl font-serif font-bold">{tier.price}</span>
                 </div>
-                <p className={`text-sm mt-2 ${tier.highlight ? 'text-slate-400' : 'text-slate-500'}`}>Monthly*</p>
+                <p className={`text-sm mt-2 font-sans font-bold uppercase tracking-widest ${tier.highlight ? 'text-slate-400' : 'text-slate-500'}`}>Monthly*</p>
               </div>
 
               {/* Features */}
@@ -229,14 +229,14 @@ export const Pricing: React.FC = () => {
                           <X className="w-3 h-3" />
                         </div>
                       )}
-                      <span className={`text-sm flex-1 ${tier.highlight ? 'text-slate-300' : 'text-slate-600'}`}>
+                      <span className={`text-sm font-sans font-light leading-snug flex-1 ${tier.highlight ? 'text-slate-300' : 'text-slate-600'}`}>
                         {feature.text}
                       </span>
                       {feature.included && (
                         <div className="relative group/tooltip">
                           <Info className="w-4 h-4 text-slate-400 cursor-help hover:text-gold-500 transition-colors" />
                           {/* Tooltip */}
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-3 bg-navy-900/95 backdrop-blur-sm border border-slate-700 text-slate-200 text-xs leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 z-50 pointer-events-none scale-95 group-hover/tooltip:scale-100 origin-bottom">
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-3 bg-navy-900/95 backdrop-blur-sm border border-slate-700 text-slate-200 text-xs font-sans font-light leading-relaxed rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 z-50 pointer-events-none scale-95 group-hover/tooltip:scale-100 origin-bottom">
                             {feature.description}
                             <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px border-4 border-transparent border-t-navy-900/95"></div>
                           </div>
@@ -250,7 +250,7 @@ export const Pricing: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className={`
-                  w-full mt-8 py-3 px-6 rounded font-bold tracking-wider transition-colors
+                  w-full mt-8 py-3 px-6 rounded font-sans font-bold tracking-widest transition-colors uppercase text-sm
                   ${tier.highlight 
                     ? 'bg-white text-navy-900 hover:bg-gold-500 hover:text-white' 
                     : 'bg-navy-800 text-white hover:bg-navy-700'}

@@ -73,7 +73,7 @@ export const ProcessTimeline: React.FC = () => {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-gold-500 font-bold tracking-widest uppercase text-xs border border-gold-500/20 px-4 py-1 rounded-full"
+            className="text-gold-500 font-sans font-bold tracking-widest uppercase text-xs border border-gold-500/20 px-4 py-1 rounded-full"
           >
             How We Work
           </motion.span>
@@ -82,7 +82,7 @@ export const ProcessTimeline: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl font-serif font-bold text-white mt-6 mb-6"
+            className="text-3xl md:text-5xl font-serif font-bold text-white mt-6 mb-6 tracking-tight"
           >
             The Path to Restoration
           </motion.h2>
@@ -91,7 +91,7 @@ export const ProcessTimeline: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-slate-400 max-w-2xl mx-auto text-lg"
+            className="text-slate-400 max-w-2xl mx-auto text-lg font-sans font-light leading-relaxed"
           >
             Our proven four-step methodology combines legal expertise with aggressive dispute tactics.
           </motion.p>
@@ -121,11 +121,11 @@ export const ProcessTimeline: React.FC = () => {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className={`w-5/12 ${isEven ? 'text-right pr-12' : 'text-left pl-12'}`}
                   >
-                    <div className="text-gold-500 font-bold text-sm tracking-widest mb-2">STEP {item.step}</div>
-                    <h3 className="text-2xl font-serif font-bold text-white mb-4">{item.title}</h3>
+                    <div className="text-gold-500 font-sans font-bold text-sm tracking-widest mb-2">STEP {item.step}</div>
+                    <h3 className="text-2xl font-serif font-bold text-white mb-4 tracking-tight">{item.title}</h3>
                     <ul className="space-y-2">
                       {item.description.map((point, i) => (
-                        <li key={i} className={`text-slate-300 leading-relaxed text-sm flex items-center gap-3 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                        <li key={i} className={`text-slate-300 font-sans font-light leading-relaxed text-sm flex items-center gap-3 ${isEven ? 'justify-end' : 'justify-start'}`}>
                           {/* For Odd items (Right side), bullet comes first */}
                           {!isEven && <span className="w-1.5 h-1.5 bg-gold-500 rounded-full flex-shrink-0 mt-0.5" />}
                           
@@ -173,7 +173,7 @@ export const ProcessTimeline: React.FC = () => {
            {steps.map((item, index) => (
              <div key={index} className="relative pl-12">
                 <div className="absolute left-0 top-0 w-8 h-8 bg-navy-950 border border-gold-500 rounded-full flex items-center justify-center -translate-x-1/2 mt-1 z-10">
-                   <span className="text-[10px] text-gold-500 font-bold">{item.step}</span>
+                   <span className="text-[10px] text-gold-500 font-sans font-bold">{item.step}</span>
                 </div>
                 <motion.div 
                   initial={{ opacity: 0, x: 20 }}
@@ -191,11 +191,11 @@ export const ProcessTimeline: React.FC = () => {
                       >
                          <item.icon className="w-5 h-5 text-gold-500" />
                       </motion.div>
-                      <h3 className="text-xl font-serif font-bold text-white">{item.title}</h3>
+                      <h3 className="text-xl font-serif font-bold text-white tracking-tight">{item.title}</h3>
                    </div>
                    <ul className="space-y-2 pl-1">
                      {item.description.map((point, i) => (
-                        <li key={i} className="text-slate-300 text-sm leading-relaxed flex items-start gap-2">
+                        <li key={i} className="text-slate-300 font-sans font-light text-sm leading-relaxed flex items-start gap-2">
                            <span className="w-1.5 h-1.5 bg-gold-500 rounded-full flex-shrink-0 mt-1.5" />
                            <span>{point}</span>
                         </li>
